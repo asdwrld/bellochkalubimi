@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Твоё настроение</title>
+    <title>Твоё настроение 💜</title>
 
     <style>
         * {
@@ -34,7 +34,7 @@
         }
 
         h1 {
-            font-size: 30px;
+            font-size: 28px;
             margin-bottom: 12px;
         }
 
@@ -58,16 +58,22 @@
             transition: 0.2s;
         }
 
+        button:hover {
+            transform: scale(1.04);
+            filter: brightness(1.15);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
         .rating-button {
             padding: 15px 5px;
             border-radius: 12px;
             color: white;
             background: #69458a;
-        }
-
-        button:hover {
-            transform: scale(1.05);
-            filter: brightness(1.15);
         }
 
         .main-button {
@@ -77,6 +83,15 @@
             border-radius: 12px;
             color: white;
             background: linear-gradient(135deg, #a46bd4, #7544a5);
+        }
+
+        .secondary-button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 10px;
+            border-radius: 12px;
+            color: white;
+            background: #4b365e;
         }
 
         input {
@@ -96,7 +111,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         .message {
@@ -110,6 +125,7 @@
         .status {
             margin-top: 15px;
             font-size: 14px;
+            color: #ddd3e8;
         }
 
         .footer {
@@ -117,18 +133,36 @@
             font-size: 12px;
             color: #a99ab8;
         }
+
+        .window {
+            animation: appear 0.25s ease;
+        }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <section id="ratingSection">
+
+        <!-- ОКНО 1: ВЫБОР НАСТРОЕНИЯ -->
+        <section id="ratingSection" class="window">
             <h1>Как твоё настроение? 💜</h1>
             <p>Выбери число от 1 до 10</p>
 
             <div class="ratings">
                 <button class="rating-button" onclick="rate(1)">1</button>
-                <button class="rating-button" onclick="rate(2)">2</button>
+<button class="rating-button" onclick="rate(2)">2</button>
                 <button class="rating-button" onclick="rate(3)">3</button>
                 <button class="rating-button" onclick="rate(4)">4</button>
                 <button class="rating-button" onclick="rate(5)">5</button>
@@ -138,14 +172,28 @@
                 <button class="rating-button" onclick="rate(9)">9</button>
                 <button class="rating-button" onclick="rate(10)">10</button>
             </div>
-
-            <div id="ratingMessage" class="message hidden"></div>
         </section>
 
-        <section id="wordSection" class="hidden">
+        <!-- ОКНО 2: СООБЩЕНИЕ ПОСЛЕ ВЫБОРА ЦИФРЫ -->
+        <section id="messageSection" class="hidden window">
+            <h1>Твоё сообщение 💜</h1>
+            <div id="ratingMessage" class="message"></div>
+
+            <button class="main-button" onclick="nextStep()">
+                Далее →
+            </button>
+
+            <button class="secondary-button" onclick="backToRating()">
+                Назад
+            </button>
+        </section>
+
+        <!-- ОКНО 3: ВВОД СЛОВА -->
+        <section id="wordSection" class="hidden window">
             <h1>Теперь твоя очередь ✨</h1>
             <p>Напиши любое слово, которое приходит тебе в голову</p>
-<input
+
+            <input
                 type="text"
                 id="word"
                 maxlength="200"
@@ -153,14 +201,23 @@
                 autocomplete="off"
             >
 
-            <button class="main-button" id="sendButton" onclick="finish()">
+            <button
+                class="main-button"
+                id="sendButton"
+                onclick="finish()"
+            >
                 Отправить 💌
+            </button>
+
+            <button class="secondary-button" onclick="backToMessage()">
+                Назад
             </button>
 
             <div id="status" class="status"></div>
         </section>
 
-        <section id="finalSection" class="hidden">
+        <!-- ОКНО 4: ЗАВЕРШЕНИЕ -->
+        <section id="finalSection" class="hidden window">
             <h1>Спасибо! 💜</h1>
             <p id="finalMessage"></p>
             <p>Пусть у тебя всё будет хорошо ✨</p>
@@ -172,6 +229,7 @@
     <script>
         const email = "upon.holl@gmail.com";
 
+        // Твои оригинальные сообщения сохранены
         const messages = {
             1: "Ну не грусти. Если захочешь, напиши мне — я выслушаю ❤️",
             2: "Уже лучше, но если что-то тревожит, можешь мне рассказать 💜",
@@ -185,20 +243,54 @@
             10: "Умничка, красотка, легенда! Ты сияешь как никогда! ✨"
         };
 
-        function rate(number) {
-            document.getElementById("ratingMessage").textContent =
-                messages[number];
+        let selectedRating = 0;
 
-            document.getElementById("ratingMessage").classList.remove("hidden");
+        function showSection(sectionId) {
+            const sections = [
+                "ratingSection",
+                "messageSection",
+                "wordSection",
+                "finalSection"
+            ];
 
-            document.getElementById("wordSection").classList.remove("hidden");
+            sections.forEach(id => {
+                document.getElementById(id).classList.add("hidden");
+            });
 
-            document.getElementById("wordSection").scrollIntoView({
-                behavior: "smooth",
-                block: "center"
+            document.getElementById(sectionId).classList.remove("hidden");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
             });
         }
 
+        // Выбор настроения
+        function rate(number) {
+            selectedRating = number;
+
+            document.getElementById("ratingMessage").textContent =
+                messages[number];
+
+            showSection("messageSection");
+        }
+// Переход к вводу слова
+        function nextStep() {
+            showSection("wordSection");
+            document.getElementById("word").focus();
+        }
+
+        // Возврат к выбору настроения
+        function backToRating() {
+            showSection("ratingSection");
+        }
+
+        // Возврат к сообщению
+        function backToMessage() {
+            showSection("messageSection");
+        }
+
+        // Отправка слова на почту
         async function finish() {
             const wordInput = document.getElementById("word");
             const status = document.getElementById("status");
@@ -225,8 +317,9 @@
                             "Accept": "application/json"
                         },
                         body: JSON.stringify({
-                            _subject: "Новое слово с сайта",
+                            _subject: "Новое слово с сайта Bellochka",
                             word: word,
+                            mood_rating: selectedRating,
                             _captcha: "true"
                         })
                     }
@@ -236,21 +329,22 @@
 
                 if (response.ok && result.success) {
                     document.getElementById("finalMessage").textContent =
-                        "Ты написал: «" + word + "». Спасибо, что поделился своим словом! 💜";
+                        "Ты написал: «" + word +
+                        "». Спасибо, что поделился своим словом! 💜";
 
-                    document.getElementById("wordSection").classList.add("hidden");
-                    document.getElementById("ratingSection").classList.add("hidden");
-                    document.getElementById("finalSection").classList.remove("hidden");
+                    showSection("finalSection");
                 } else {
                     throw new Error("Не удалось отправить сообщение");
                 }
             } catch (error) {
                 status.textContent =
                     "Не получилось отправить. Попробуй ещё раз немного позже.";
-sendButton.disabled = false;
+
+                sendButton.disabled = false;
                 sendButton.textContent = "Отправить 💌";
             }
         }
     </script>
 </body>
 </html>
+
