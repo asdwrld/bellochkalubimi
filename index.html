@@ -1,310 +1,256 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Для самой лучшей 💜</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Твоё настроение</title>
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    color: white;
-    background: linear-gradient(135deg, #171326, #45245e, #171326);
-}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            color: white;
+            text-align: center;
+            background: linear-gradient(135deg, #171020, #352044, #171020);
+        }
 
-.card {
-    width: 100%;
-    max-width: 480px;
-    padding: 30px 22px;
-    text-align: center;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 24px;
-    box-shadow: 0 15px 50px #0005;
-}
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+        }
 
-h1 {
-    color: #e2baff;
-}
+        h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
 
-p {
-    line-height: 1.6;
-    color: #e4d9f1;
-}
+        p {
+            color: #ddd3e8;
+            line-height: 1.6;
+        }
 
-.numbers {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    margin: 25px 0;
-}
+        .ratings {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 25px 0;
+        }
 
-.numbers button {
-    padding: 15px 5px;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    background: #50356d;
-    border: 1px solid #956bbb;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-}
+        button {
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
 
-.numbers button:hover {
-    background: #9862c0;
-    transform: translateY(-3px);
-}
+        .rating-button {
+            padding: 15px 5px;
+            border-radius: 12px;
+            color: white;
+            background: #69458a;
+        }
 
-input {
-    width: 100%;
-    padding: 14px;
-    margin: 10px 0;
-    color: white;
-    background: #241a33;
-    border: 1px solid #79569b;
-    border-radius: 10px;
-    font-size: 16px;
-}
+        button:hover {
+            transform: scale(1.05);
+            filter: brightness(1.15);
+        }
 
-input::placeholder {
-    color: #c3b3d3;
-}
+        .main-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(135deg, #a46bd4, #7544a5);
+        }
 
-.send, .close {
-    padding: 13px 20px;
-    color: white;
-    background: #8956b3;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
-}
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid #76578f;
+            border-radius: 12px;
+            outline: none;
+            color: white;
+            background: rgba(0, 0, 0, 0.25);
+            font-size: 16px;
+        }
 
-.send {
-    width: 100%;
-}
+        input::placeholder {
+            color: #bdb0c9;
+        }
 
-.send:hover, .close:hover {
-    background: #a16bce;
-}
+        .hidden {
+            display: none;
+        }
 
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background: rgba(0,0,0,0.75);
-}
+        .message {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 14px;
+            background: rgba(164, 107, 212, 0.15);
+            line-height: 1.6;
+        }
 
-.modal-content {
-    width: 100%;
-    max-width: 380px;
-    padding: 30px 24px;
-    text-align: center;
-    background: linear-gradient(145deg, #30203f, #4b2b62);
-    border: 1px solid #b68bd8;
-    border-radius: 22px;
-    box-shadow: 0 0 40px #a85ce344;
-    animation: appear 0.25s ease-out;
-}
+        .status {
+            margin-top: 15px;
+            font-size: 14px;
+        }
 
-.modal-content h2 {
-    color: #e2baff;
-}
-
-.message {
-    margin: 25px 0;
-    font-size: 18px;
-    line-height: 1.7;
-    white-space: pre-line;
-    overflow-wrap: anywhere;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-</style>
+        .footer {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #a99ab8;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+        <section id="ratingSection">
+            <h1>Как твоё настроение? 💜</h1>
+            <p>Выбери число от 1 до 10</p>
 
-<div class="card">
-    <h1>Привет, тётя!!! 💜</h1>
+            <div class="ratings">
+                <button class="rating-button" onclick="rate(1)">1</button>
+                <button class="rating-button" onclick="rate(2)">2</button>
+                <button class="rating-button" onclick="rate(3)">3</button>
+                <button class="rating-button" onclick="rate(4)">4</button>
+                <button class="rating-button" onclick="rate(5)">5</button>
+                <button class="rating-button" onclick="rate(6)">6</button>
+                <button class="rating-button" onclick="rate(7)">7</button>
+                <button class="rating-button" onclick="rate(8)">8</button>
+                <button class="rating-button" onclick="rate(9)">9</button>
+                <button class="rating-button" onclick="rate(10)">10</button>
+            </div>
 
-    <p>
-        Как ты себя сегодня чувствуешь?<br>
-        Выбери цифру от 1 до 10.
-    </p>
+            <div id="ratingMessage" class="message hidden"></div>
+        </section>
 
-    <div class="numbers">
-        <button onclick="rate(1)">1</button>
-        <button onclick="rate(2)">2</button>
-        <button onclick="rate(3)">3</button>
-        <button onclick="rate(4)">4</button>
-        <button onclick="rate(5)">5</button>
-        <button onclick="rate(6)">6</button>
-        <button onclick="rate(7)">7</button>
-        <button onclick="rate(8)">8</button>
-        <button onclick="rate(9)">9</button>
-        <button onclick="rate(10)">10</button>
+        <section id="wordSection" class="hidden">
+            <h1>Теперь твоя очередь ✨</h1>
+            <p>Напиши любое слово, которое приходит тебе в голову</p>
+<input
+                type="text"
+                id="word"
+                maxlength="200"
+                placeholder="Твоё слово..."
+                autocomplete="off"
+            >
+
+            <button class="main-button" id="sendButton" onclick="finish()">
+                Отправить 💌
+            </button>
+
+            <div id="status" class="status"></div>
+        </section>
+
+        <section id="finalSection" class="hidden">
+            <h1>Спасибо! 💜</h1>
+            <p id="finalMessage"></p>
+            <p>Пусть у тебя всё будет хорошо ✨</p>
+        </section>
+
+        <div class="footer">Сделано с заботой 💜</div>
     </div>
 
-    <p>Напиши любое слово:</p>
+    <script>
+        const email = "upon.holl@gmail.com";
 
-    <input
-        id="word"
-        type="text"
-        placeholder="Твоё слово..."
-        maxlength="100"
-    >
+        const messages = {
+            1: "Мне жаль, что тебе сейчас нелегко. Пожалуйста, не забывай заботиться о себе. 💜",
+            2: "Даже если день не задался, впереди ещё много хороших моментов.",
+            3: "Бывает сложно, но ты не обязан справляться со всем сразу. 🌙",
+            4: "Надеюсь, скоро тебе станет немного лучше. Береги себя!",
+            5: "Пусть остаток дня принесёт тебе что-нибудь приятное. ✨",
+            6: "Уже неплохо! Желаю тебе побольше хороших моментов.",
+            7: "Здорово! Надеюсь, день продолжит радовать тебя. 💜",
+            8: "Отличное настроение! Пусть так будет как можно дольше!",
+            9: "Замечательно! Желаю тебе ещё больше поводов улыбаться. 🌟",
+            10: "Вау, десять из десяти! Пусть каждый день приносит радость! 💖"
+        };
 
-    <button class="send" onclick="finish()">
-        Получить сообщение 💌
-    </button>
-</div>
+        function rate(number) {
+            document.getElementById("ratingMessage").textContent =
+                messages[number];
 
-<!-- Окно с ответом на оценку -->
-<div
-    class="modal"
-    id="ratingModal"
-    onclick="outsideClick(event)"
->
-    <div class="modal-content">
-        <h2 id="ratingTitle">Твоё настроение 💜</h2>
-        <div class="message" id="ratingMessage"></div>
-        <button class="close" onclick="closeRating()">
-            Закрыть 💜
-        </button>
-    </div>
-</div>
-<!-- Окно благодарности за слово -->
-<div
-    class="modal"
-    id="finalModal"
-    onclick="outsideFinalClick(event)"
->
-    <div class="modal-content">
-        <h2 id="finalTitle">Для тебя 💌</h2>
-        <div class="message" id="finalMessage"></div>
-        <button class="close" onclick="closeFinal()">
-            Спасибо ❤️
-        </button>
-    </div>
-</div>
+            document.getElementById("ratingMessage").classList.remove("hidden");
 
-<script>
-const messages = {
-    1: "Ну не грусти. Если захочешь, напиши мне — я выслушаю ❤️",
+            document.getElementById("wordSection").classList.remove("hidden");
 
-    2: "Уже лучше, но если что-то тревожит, можешь мне рассказать 💜",
+            document.getElementById("wordSection").scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
 
-    3: "Ну это вообще ни рыба ни мясо. Давай не кисни!",
+        async function finish() {
+            const wordInput = document.getElementById("word");
+            const status = document.getElementById("status");
+            const sendButton = document.getElementById("sendButton");
 
-    4: "Симпл тоже когда-то был бездарем. Но этот парень с тобой рядом не стоял — ты прекрасна!",
+            const word = wordInput.value.trim();
 
-    5: "Ну более-менее! Может, пора в Дискорд, всё обсудим и решим 😊",
+            if (!word) {
+                status.textContent = "Сначала напиши слово 💜";
+                return;
+            }
 
-    6: "Ну что-то уже получается! Пойдём в Faceit, я какую-нибудь хуйню вкину — и кайф 😂",
+            sendButton.disabled = true;
+            sendButton.textContent = "Отправляем...";
+            status.textContent = "Пожалуйста, подожди...";
 
-    7: "Ну ты типа Монеси! Донк и остальные вообще раки, а ты умничка 💜",
+            try {
+                const response = await fetch(
+                    "https://formsubmit.co/ajax/" + email,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            _subject: "Новое слово с сайта",
+                            word: word,
+                            _captcha: "true"
+                        })
+                    }
+                );
 
-    8: "Ты вообще ракета, бомба, петарда! Давай в том же духе 🚀",
+                const result = await response.json();
 
-    9: "Просто красотка! Но это не десяточка. Скажи мальчику, чего тебе не хватило 😉",
+                if (response.ok && result.success) {
+                    document.getElementById("finalMessage").textContent =
+                        "Ты написал: «" + word + "». Спасибо, что поделился своим словом! 💜";
 
-    10: "Умничка, красотка, легенда! Ты сияешь как никогда! ✨"
-};
-
-// Открытие окна при выборе оценки
-function rate(number) {
-    document.getElementById("ratingTitle").textContent =
-        "Твоя оценка: " + number + "/10 💜";
-
-    document.getElementById("ratingMessage").textContent =
-        messages[number];
-
-    document.getElementById("ratingModal").style.display = "flex";
-}
-
-// Закрытие окна оценки
-function closeRating() {
-    document.getElementById("ratingModal").style.display = "none";
-}
-
-// Закрытие при нажатии на затемнённый фон
-function outsideClick(event) {
-    if (event.target.id === "ratingModal") {
-        closeRating();
-    }
-}
-
-// Открытие окна благодарности
-function finish() {
-    const word = document.getElementById("word").value.trim();
-
-    const title = document.getElementById("finalTitle");
-    const message = document.getElementById("finalMessage");
-
-    if (word !== "") {
-        title.textContent = "Спасибо за твоё слово! 💜";
-
-        message.textContent =
-            "Спасибо, что поделилась словом «" + word +
-            "»! Мне очень приятно, что ты написала его. 💌\n\n" +
-            "В любом настроении ты смело можешь написать мне. " +
-            "Я всегда готов выслушать, поддержать или просто поговорить. ❤️";
-    } else {
-        title.textContent = "Небольшое напоминание 💜";
-
-        message.textContent =
-            "В любом настроении ты смело можешь написать мне. " +
-            "Я всегда готов выслушать, поддержать или просто поговорить. ❤️";
-    }
-
-    document.getElementById("finalModal").style.display = "flex";
-}
-
-// Закрытие окна благодарности
-function closeFinal() {
-    document.getElementById("finalModal").style.display = "none";
-}
-
-// Закрытие при нажатии на фон окна благодарности
-function outsideFinalClick(event) {
-    if (event.target.id === "finalModal") {
-        closeFinal();
-    }
-}
-
-// Закрытие окон клавишей Escape
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        closeRating();
-        closeFinal();
-    }
-});
-</script>
-
+                    document.getElementById("wordSection").classList.add("hidden");
+                    document.getElementById("ratingSection").classList.add("hidden");
+                    document.getElementById("finalSection").classList.remove("hidden");
+                } else {
+                    throw new Error("Не удалось отправить сообщение");
+                }
+            } catch (error) {
+                status.textContent =
+                    "Не получилось отправить. Попробуй ещё раз немного позже.";
+sendButton.disabled = false;
+                sendButton.textContent = "Отправить 💌";
+            }
+        }
+    </script>
 </body>
 </html>
