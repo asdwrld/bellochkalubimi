@@ -1,350 +1,247 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Твоё настроение 💜</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Маленький сюрприз 💙</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            color: white;
-            text-align: center;
-            background: linear-gradient(135deg, #171020, #352044, #171020);
-        }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #bde9ff, #78bfff, #d9f4ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    color: #174b78;
+}
 
-        .container {
-            width: 100%;
-            max-width: 500px;
-            padding: 30px 20px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-        }
+.screen {
+    text-align: center;
+    padding: 25px;
+    width: 100%;
+    max-width: 600px;
+    animation: appear 1s ease;
+}
 
-        h1 {
-            font-size: 28px;
-            margin-bottom: 12px;
-        }
+.hidden {
+    display: none;
+}
 
-        p {
-            color: #ddd3e8;
-            line-height: 1.6;
-        }
+h1 {
+    font-size: 30px;
+    margin-bottom: 25px;
+}
 
-        .ratings {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 25px 0;
-        }
+p {
+    font-size: 20px;
+    margin: 15px 0;
+}
 
-        button {
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
+#bow {
+    font-size: 120px;
+    cursor: pointer;
+    transition: transform 0.3s;
+    display: inline-block;
+}
 
-        button:hover {
-            transform: scale(1.04);
-            filter: brightness(1.15);
-        }
+#bow:hover {
+    transform: scale(1.1);
+}
 
-        button:disabled {
-            opacity: 0.6;
-            cursor: wait;
-            transform: none;
-        }
+.arrow {
+    font-size: 65px;
+    position: absolute;
+    top: 45%;
+    left: -100px;
+    transform: rotate(-10deg);
+    display: none;
+    z-index: 5;
+}
 
-        .rating-button {
-            padding: 15px 5px;
-            border-radius: 12px;
-            color: white;
-            background: #69458a;
-        }
+.fly {
+    display: block;
+    animation: fly 1.5s ease-in forwards;
+}
 
-        .main-button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 12px;
-            color: white;
-            background: linear-gradient(135deg, #a46bd4, #7544a5);
-        }
+@keyframes fly {
+    0% {
+        left: -100px;
+    }
+    100% {
+        left: 75%;
+    }
+}
 
-        .secondary-button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 10px;
-            border-radius: 12px;
-            color: white;
-            background: #4b365e;
-        }
+.heart {
+    font-size: 100px;
+    animation: heartbeat 1s infinite;
+    margin: 20px;
+}
 
-        input {
-            width: 100%;
-            padding: 15px;
-            margin-top: 15px;
-            border: 1px solid #76578f;
-            border-radius: 12px;
-            outline: none;
-            color: white;
-            background: rgba(0, 0, 0, 0.25);
-            font-size: 16px;
-        }
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
 
-        input::placeholder {
-            color: #bdb0c9;
-        }
+button {
+    padding: 14px 35px;
+    margin: 15px;
+    border: none;
+    border-radius: 30px;
+    background: #278bd1;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px #428fc766;
+}
 
-        .hidden {
-            display: none !important;
-        }
+button:hover {
+    transform: scale(1.08);
+    background: #126bb0;
+}
 
-        .message {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 14px;
-            background: rgba(164, 107, 212, 0.15);
-            line-height: 1.6;
-        }
+.no {
+    background: #7c9db7;
+}
 
-        .status {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #ddd3e8;
-        }
+.ring {
+    font-size: 120px;
+    margin: 20px;
+    animation: heartbeat 1.5s infinite;
+}
 
-        .footer {
-            margin-top: 25px;
-            font-size: 12px;
-            color: #a99ab8;
-        }
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
-        .window {
-            animation: appear 0.25s ease;
-        }
+.hearts {
+    position: fixed;
+    pointer-events: none;
+    font-size: 25px;
+    animation: rise 4s linear forwards;
+}
 
-        @keyframes appear {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+@keyframes rise {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+}
+</style>
 </head>
 
 <body>
-    <div class="container">
 
-        <!-- ОКНО 1: ВЫБОР НАСТРОЕНИЯ -->
-        <section id="ratingSection" class="window">
-            <h1>Как твоё настроение? 💜</h1>
-            <p>Выбери число от 1 до 10</p>
+<!-- Первый экран -->
+<div class="screen" id="firstScreen">
+    <h1>Для тебя есть кое-что особенное 💙</h1>
+    <p>Нажми на лук, чтобы узнать...</p>
 
-            <div class="ratings">
-                <button class="rating-button" onclick="rate(1)">1</button>
-<button class="rating-button" onclick="rate(2)">2</button>
-                <button class="rating-button" onclick="rate(3)">3</button>
-                <button class="rating-button" onclick="rate(4)">4</button>
-                <button class="rating-button" onclick="rate(5)">5</button>
-                <button class="rating-button" onclick="rate(6)">6</button>
-                <button class="rating-button" onclick="rate(7)">7</button>
-                <button class="rating-button" onclick="rate(8)">8</button>
-                <button class="rating-button" onclick="rate(9)">9</button>
-                <button class="rating-button" onclick="rate(10)">10</button>
-            </div>
-        </section>
+    <div id="bow" onclick="shoot()">🏹</div>
 
-        <!-- ОКНО 2: СООБЩЕНИЕ ПОСЛЕ ВЫБОРА ЦИФРЫ -->
-        <section id="messageSection" class="hidden window">
-            <h1>Твоё сообщение 💜</h1>
-            <div id="ratingMessage" class="message"></div>
+    <p>Жми сюда 💌</p>
+</div>
 
-            <button class="main-button" onclick="nextStep()">
-                Далее →
-            </button>
+<div class="arrow" id="arrow">➳</div>
 
-            <button class="secondary-button" onclick="backToRating()">
-                Назад
-            </button>
-        </section>
+<!-- Второй экран -->
+<div class="screen hidden" id="questionScreen">
+    <div class="heart">💙</div>
 
-        <!-- ОКНО 3: ВВОД СЛОВА -->
-        <section id="wordSection" class="hidden window">
-            <h1>Теперь твоя очередь ✨</h1>
-            <p>Напиши любое слово, которое приходит тебе в голову</p>
+    <h1>Готова ли ты со мной встречаться?</h1>
 
-            <input
-                type="text"
-                id="word"
-                maxlength="200"
-                placeholder="Твоё слово..."
-                autocomplete="off"
-            >
+    <button onclick="sayYes()">Да ❤️</button>
+    <button class="no" onclick="sayNo()">Нет</button>
 
-            <button
-                class="main-button"
-                id="sendButton"
-                onclick="finish()"
-            >
-                Отправить 💌
-            </button>
+    <p id="answer"></p>
+</div>
 
-            <button class="secondary-button" onclick="backToMessage()">
-                Назад
-            </button>
+<!-- Финальный экран -->
+<div class="screen hidden" id="finalScreen">
+    <div class="ring">💍</div>
 
-            <div id="status" class="status"></div>
-        </section>
+    <h1>УРААА! 💙</h1>
 
-        <!-- ОКНО 4: ЗАВЕРШЕНИЕ -->
-        <section id="finalSection" class="hidden window">
-            <h1>Спасибо! 💜</h1>
-            <p id="finalMessage"></p>
-            <p>Пусть у тебя всё будет хорошо ✨</p>
-        </section>
+    <p>Ты сделала меня самым счастливым человеком!</p>
+    <p>Я очень рад, что ты сказала «Да» ❤️</p>
+    <p>Пусть это будет началом нашей красивой истории!</p>
 
-        <div class="footer">Сделано с заботой 💜</div>
-    </div>
+    <div class="heart">💙</div>
+</div>
 
-    <script>
-        const email = "upon.holl@gmail.com";
+<script>
+let clicked = false;
 
-        // Твои оригинальные сообщения сохранены
-        const messages = {
-            1: "Ну не грусти. Если захочешь, напиши мне — я выслушаю ❤️",
-            2: "Уже лучше, но если что-то тревожит, можешь мне рассказать 💜",
-            3: "Ну это вообще ни рыба ни мясо. Давай не кисни!",
-            4: "Симпл тоже когда-то был бездарем. Но этот парень с тобой рядом не стоял — ты прекрасна!",
-            5: "Ну более-менее! Может, пора в Дискорд, всё обсудим и решим 😊",
-            6: "Ну что-то уже получается! Пойдём в Faceit, я какую-нибудь хуйню вкину — и кайф 😂",
-            7: "Ну ты типа Монеси! Донк и остальные вообще раки, а ты умничка 💜",
-            8: "Ты вообще ракета, бомба, петарда! Давай в том же духе 🚀",
-            9: "Просто красотка! Но это не десяточка. Скажи мальчику, чего тебе не хватило 😉",
-            10: "Умничка, красотка, легенда! Ты сияешь как никогда! ✨"
-        };
+function shoot() {
+    if (clicked) return;
 
-        let selectedRating = 0;
+    clicked = true;
 
-        function showSection(sectionId) {
-            const sections = [
-                "ratingSection",
-                "messageSection",
-                "wordSection",
-                "finalSection"
-            ];
+    document.getElementById("bow").style.opacity = "0.4";
 
-            sections.forEach(id => {
-                document.getElementById(id).classList.add("hidden");
-            });
+    let arrow = document.getElementById("arrow");
+    arrow.classList.add("fly");
 
-            document.getElementById(sectionId).classList.remove("hidden");
+    setTimeout(() => {
+        document.getElementById("firstScreen").classList.add("hidden");
+        document.getElementById("questionScreen").classList.remove("hidden");
+        arrow.classList.remove("fly");
+        arrow.style.display = "none";
+    }, 1600);
+}
 
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
+function sayYes() {
+    document.getElementById("questionScreen").classList.add("hidden");
+    document.getElementById("finalScreen").classList.remove("hidden");
 
-        // Выбор настроения
-        function rate(number) {
-            selectedRating = number;
+    createHearts();
+}
 
-            document.getElementById("ratingMessage").textContent =
-                messages[number];
+function sayNo() {
+    document.getElementById("answer").textContent =
+        "Ничего страшного 💙 Спасибо за честность!";
+}
 
-            showSection("messageSection");
-        }
-// Переход к вводу слова
-        function nextStep() {
-            showSection("wordSection");
-            document.getElementById("word").focus();
-        }
+function createHearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "hearts";
+        heart.textContent = "💙";
 
-        // Возврат к выбору настроения
-        function backToRating() {
-            showSection("ratingSection");
-        }
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.bottom = "-30px";
 
-        // Возврат к сообщению
-        function backToMessage() {
-            showSection("messageSection");
-        }
+        document.body.appendChild(heart);
 
-        // Отправка слова на почту
-        async function finish() {
-            const wordInput = document.getElementById("word");
-            const status = document.getElementById("status");
-            const sendButton = document.getElementById("sendButton");
+        setTimeout(() => {
+            heart.remove();
+        }, 4000);
+    }, 300);
+}
+</script>
 
-            const word = wordInput.value.trim();
-
-            if (!word) {
-                status.textContent = "Сначала напиши слово 💜";
-                return;
-            }
-
-            sendButton.disabled = true;
-            sendButton.textContent = "Отправляем...";
-            status.textContent = "Пожалуйста, подожди...";
-
-            try {
-                const response = await fetch(
-                    "https://formsubmit.co/ajax/" + email,
-                    {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify({
-                            _subject: "Новое слово с сайта Bellochka",
-                            word: word,
-                            mood_rating: selectedRating,
-                            _captcha: "true"
-                        })
-                    }
-                );
-
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    document.getElementById("finalMessage").textContent =
-                        "Ты написал: «" + word +
-                        "». Спасибо, что поделился своим словом! 💜";
-
-                    showSection("finalSection");
-                } else {
-                    throw new Error("Не удалось отправить сообщение");
-                }
-            } catch (error) {
-                status.textContent =
-                    "Не получилось отправить. Попробуй ещё раз немного позже.";
-
-                sendButton.disabled = false;
-                sendButton.textContent = "Отправить 💌";
-            }
-        }
-    </script>
 </body>
 </html>
+```
 
